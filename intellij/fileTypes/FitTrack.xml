@@ -1,0 +1,20 @@
+<filetype binary="false" description="Fit &amp; Track training DSL" name="FitTrack" version="17">
+  <highlighting>
+    <options>
+      <option name="LINE_COMMENT" value="#" />
+      <option name="COMMENT_START" value="" />
+      <option name="COMMENT_END" value="" />
+      <option name="HEX_PREFIX" value="" />
+      <option name="NUM_POSTFIXES" value="kg;km" />
+      <option name="HAS_BRACES" value="false" />
+      <option name="HAS_BRACKETS" value="false" />
+      <option name="HAS_PARENS" value="false" />
+      <option name="HAS_STRING_ESCAPES" value="true" />
+    </options>
+    <keywords keywords="cardio;exercise;note;set;training;x" ignore_case="false" />
+  </highlighting>
+  <extensionMap>
+    <mapping ext="fit" />
+  </extensionMap>
+</filetype>
+

@@ -1,2 +1,7 @@
 /target/
 
+
+/intellij-plugin/.gradle/
+/intellij-plugin/.intellijPlatform/
+/intellij-plugin/.kotlin/
+/intellij-plugin/build/

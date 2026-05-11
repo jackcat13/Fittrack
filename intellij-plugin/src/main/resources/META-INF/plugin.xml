@@ -1,0 +1,26 @@
+<idea-plugin>
+  <id>com.fittrack.intellij</id>
+  <name>Fit &amp; Track</name>
+  <vendor email="hello@fittrack.local">Fit &amp; Track</vendor>
+
+  <depends>com.intellij.modules.platform</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <fileType
+      name="FitTrack"
+      language="FitTrack"
+      implementationClass="com.fittrack.intellij.language.FitTrackFileType"
+      extensions="fit" />
+    <lang.syntaxHighlighterFactory
+      language="FitTrack"
+      implementationClass="com.fittrack.intellij.language.FitTrackSyntaxHighlighterFactory" />
+    <configurationType implementation="com.fittrack.intellij.run.FitTrackRunConfigurationType" />
+    <runConfigurationProducer implementation="com.fittrack.intellij.run.FitTrackRunConfigurationProducer" />
+    <toolWindow
+      id="Fit Track"
+      anchor="right"
+      factoryClass="com.fittrack.intellij.ui.FitTrackToolWindowFactory" />
+    <postStartupActivity implementation="com.fittrack.intellij.ui.FitTrackStartupActivity" />
+  </extensions>
+</idea-plugin>
+

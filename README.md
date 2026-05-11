@@ -53,9 +53,14 @@ Then visit `http://localhost:8080`.
 
 The `vscode/` folder contains a TextMate grammar and language configuration that can be packaged into a VS Code extension later. It already captures the language shape for highlighting: keywords, strings, numbers, units, comments, and RPE values.
 
+The `intellij/` folder contains lightweight JetBrains IDE support: an importable custom file type for `.fit` syntax highlighting and live templates for quickly writing training blocks, exercises, sets, and cardio entries.
+
+The `intellij-plugin/` folder contains a real JetBrains plugin scaffold with `.fit` highlighting, Run-button compilation, and an in-IDE dashboard tool window.
+
 ## Next Milestones
 
 - Add a real parser crate with richer diagnostics and recovery.
 - Package VS Code support with snippets and completions.
+- Add IntelliJ exercise completion backed by `config/exercises.txt`.
 - Persist personal records and derived metrics in the compiler output.
 - Add dashboard filters for date ranges, exercise groups, and cardio types.

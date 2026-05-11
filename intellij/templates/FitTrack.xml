@@ -1,0 +1,39 @@
+<templateSet group="FitTrack">
+  <template name="training" value="training $DATE$ &quot;$TITLE$&quot;&#10;  exercise &quot;$EXERCISE$&quot;&#10;    set $REPS$ x $WEIGHT$kg @$RPE$" description="Create a Fit &amp; Track training block" toReformat="false" toShortenFQNames="false">
+    <variable name="DATE" expression="" defaultValue="&quot;2026-05-11&quot;" alwaysStopAt="true" />
+    <variable name="TITLE" expression="" defaultValue="&quot;Training&quot;" alwaysStopAt="true" />
+    <variable name="EXERCISE" expression="" defaultValue="&quot;Bench Press&quot;" alwaysStopAt="true" />
+    <variable name="REPS" expression="" defaultValue="&quot;5&quot;" alwaysStopAt="true" />
+    <variable name="WEIGHT" expression="" defaultValue="&quot;60&quot;" alwaysStopAt="true" />
+    <variable name="RPE" expression="" defaultValue="&quot;8&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="OTHER" value="true" />
+    </context>
+  </template>
+  <template name="exercise" value="exercise &quot;$NAME$&quot;&#10;  set $REPS$ x $WEIGHT$kg @$RPE$" description="Create an exercise with one set" toReformat="false" toShortenFQNames="false">
+    <variable name="NAME" expression="" defaultValue="&quot;Bench Press&quot;" alwaysStopAt="true" />
+    <variable name="REPS" expression="" defaultValue="&quot;5&quot;" alwaysStopAt="true" />
+    <variable name="WEIGHT" expression="" defaultValue="&quot;60&quot;" alwaysStopAt="true" />
+    <variable name="RPE" expression="" defaultValue="&quot;8&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="OTHER" value="true" />
+    </context>
+  </template>
+  <template name="set" value="set $REPS$ x $WEIGHT$kg @$RPE$" description="Create a strength set" toReformat="false" toShortenFQNames="false">
+    <variable name="REPS" expression="" defaultValue="&quot;5&quot;" alwaysStopAt="true" />
+    <variable name="WEIGHT" expression="" defaultValue="&quot;60&quot;" alwaysStopAt="true" />
+    <variable name="RPE" expression="" defaultValue="&quot;8&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="OTHER" value="true" />
+    </context>
+  </template>
+  <template name="cardio" value="cardio $KIND$ $DISTANCE$km $DURATION$" description="Create a cardio entry" toReformat="false" toShortenFQNames="false">
+    <variable name="KIND" expression="" defaultValue="&quot;run&quot;" alwaysStopAt="true" />
+    <variable name="DISTANCE" expression="" defaultValue="&quot;5&quot;" alwaysStopAt="true" />
+    <variable name="DURATION" expression="" defaultValue="&quot;25:00&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="OTHER" value="true" />
+    </context>
+  </template>
+</templateSet>
+
