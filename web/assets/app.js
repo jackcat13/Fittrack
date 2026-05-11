@@ -129,7 +129,7 @@ function renderSessions(data) {
       const exercises = training.exercises
         .map((exercise) => {
           const setText = exercise.sets
-            .map((set) => `${set.reps} x ${formatNumber(set.weightKg)}kg`)
+            .map(formatSet)
             .join(", ");
           return `<div class="exercise-row"><strong>${escapeHtml(exercise.name)}</strong><span class="set-list">${escapeHtml(setText)}</span></div>`;
         })
@@ -256,7 +256,10 @@ function summarize(trainings) {
   return trainings.reduce(
     (summary, training) => {
       summary.totalTrainings += 1;
-      summary.totalSets += training.exercises.reduce((total, exercise) => total + exercise.sets.length, 0);
+      summary.totalSets += training.exercises.reduce(
+        (total, exercise) => total + exercise.sets.reduce((sum, set) => sum + setCount(set), 0),
+        0,
+      );
       summary.totalVolumeKg += trainingVolume(training);
       summary.totalCardioKm += training.cardio.reduce((total, item) => total + item.distanceKm, 0);
       return summary;
@@ -274,11 +277,20 @@ function trainingVolume(training) {
 }
 
 function exerciseVolume(exercise) {
-  return exercise.sets.reduce((sum, set) => sum + set.reps * set.weightKg, 0);
+  return exercise.sets.reduce((sum, set) => sum + setCount(set) * set.reps * set.weightKg, 0);
 }
 
 function bestEstimatedMax(exercise) {
   return Math.max(...exercise.sets.map((set) => set.weightKg * (1 + set.reps / 30)), 0);
+}
+
+function setCount(set) {
+  return set.count || 1;
+}
+
+function formatSet(set) {
+  const base = `${set.reps} x ${formatNumber(set.weightKg)}kg`;
+  return setCount(set) > 1 ? `${setCount(set)} x ${base}` : base;
 }
 
 function shortDate(value) {

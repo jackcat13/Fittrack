@@ -62,8 +62,12 @@ class FitTrackDashboardService(private val project: Project) {
                   const data = $json;
                   const app = document.querySelector("#app");
                   const fmt = new Intl.NumberFormat("en", { maximumFractionDigits: 1 });
+                  const setCount = set => set.count || 1;
+                  const formatSet = set => setCount(set) > 1
+                    ? `${'$'}{setCount(set)} x ${'$'}{set.reps} x ${'$'}{fmt.format(set.weightKg)}kg`
+                    : `${'$'}{set.reps} x ${'$'}{fmt.format(set.weightKg)}kg`;
                   const volume = training => training.exercises.reduce((total, exercise) =>
-                    total + exercise.sets.reduce((sum, set) => sum + set.reps * set.weightKg, 0), 0);
+                    total + exercise.sets.reduce((sum, set) => sum + setCount(set) * set.reps * set.weightKg, 0), 0);
                   const maxVolume = Math.max(...data.trainings.map(volume), 1);
                   const bars = data.trainings.map((training, index) => {
                     const width = 100 / data.trainings.length;
@@ -75,7 +79,7 @@ class FitTrackDashboardService(private val project: Project) {
                   }).join("");
                   const sessions = data.trainings.slice().reverse().map(training => {
                     const rows = training.exercises.map(exercise =>
-                      `<div><span class="session-title">${'$'}{exercise.name}</span><div class="sets">${'$'}{exercise.sets.map(set => `${'$'}{set.reps} x ${'$'}{fmt.format(set.weightKg)}kg`).join(", ")}</div></div>`
+                      `<div><span class="session-title">${'$'}{exercise.name}</span><div class="sets">${'$'}{exercise.sets.map(formatSet).join(", ")}</div></div>`
                     ).join("");
                     return `<div class="card"><div class="session-title">${'$'}{training.title}</div><div class="sets">${'$'}{training.date}</div>${'$'}{rows}</div>`;
                   }).join("");
@@ -103,4 +107,3 @@ class FitTrackDashboardService(private val project: Project) {
         fun getInstance(project: Project): FitTrackDashboardService = project.service()
     }
 }
-

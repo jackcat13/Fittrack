@@ -1,116 +1,38 @@
 {
   "summary": {
-    "totalTrainings": 4,
-    "totalSets": 22,
-    "totalVolumeKg": 7947.5,
-    "totalCardioKm": 16
+    "totalTrainings": 1,
+    "totalSets": 30,
+    "totalVolumeKg": 4400,
+    "totalCardioKm": 12
   },
   "trainings": [
     {
-      "date": "2026-05-01",
-      "title": "Push Strength",
+      "date": "2026-05-11",
+      "title": "Leg Strength",
       "exercises": [
         {
-          "name": "Bench Press",
+          "name": "Pistol Squat Elevated",
           "sets": [
-            { "reps": 5, "weightKg": 60, "rpe": 8 },
-            { "reps": 5, "weightKg": 62.5, "rpe": 8.5 },
-            { "reps": 4, "weightKg": 65, "rpe": 9 }
+            { "count": 10, "reps": 5, "weightKg": 0, "rpe": 10 }
           ]
         },
         {
-          "name": "Overhead Press",
+          "name": "Calve Raise",
           "sets": [
-            { "reps": 6, "weightKg": 35, "rpe": 7.5 },
-            { "reps": 6, "weightKg": 37.5, "rpe": 8 }
+            { "count": 10, "reps": 12, "weightKg": 20, "rpe": 7 }
           ]
         },
         {
-          "name": "Deadlift",
+          "name": "Deadlift Straight Legs",
           "sets": [
-            { "reps": 5, "weightKg": 100, "rpe": 7 },
-            { "reps": 5, "weightKg": 110, "rpe": 8 },
-            { "reps": 3, "weightKg": 120, "rpe": 8.5 }
+            { "count": 10, "reps": 10, "weightKg": 20, "rpe": 5 }
           ]
         }
       ],
       "cardio": [
-        { "kind": "bike", "distanceKm": 8, "durationSeconds": 1100 }
+        { "kind": "run", "distanceKm": 12, "durationSeconds": 3600 }
       ],
-      "notes": ["Bench moved well, keep the same warmup."]
-    },
-    {
-      "date": "2026-05-04",
-      "title": "Pull Volume",
-      "exercises": [
-        {
-          "name": "Deadlift",
-          "sets": [
-            { "reps": 5, "weightKg": 100, "rpe": 7 },
-            { "reps": 5, "weightKg": 110, "rpe": 8 },
-            { "reps": 3, "weightKg": 120, "rpe": 8.5 }
-          ]
-        },
-        {
-          "name": "Barbell Row",
-          "sets": [
-            { "reps": 8, "weightKg": 55, "rpe": 8 },
-            { "reps": 8, "weightKg": 57.5, "rpe": 8 }
-          ]
-        }
-      ],
-      "cardio": [
-      ],
-      "notes": ["Grip felt better than last week."]
-    },
-    {
-      "date": "2026-05-07",
-      "title": "Legs + Run",
-      "exercises": [
-        {
-          "name": "Back Squat",
-          "sets": [
-            { "reps": 5, "weightKg": 80, "rpe": 8 },
-            { "reps": 5, "weightKg": 85, "rpe": 8 },
-            { "reps": 3, "weightKg": 90, "rpe": 9 }
-          ]
-        },
-        {
-          "name": "Romanian Deadlift",
-          "sets": [
-            { "reps": 8, "weightKg": 70, "rpe": 7.5 },
-            { "reps": 8, "weightKg": 72.5, "rpe": 8 }
-          ]
-        }
-      ],
-      "cardio": [
-        { "kind": "run", "distanceKm": 5, "durationSeconds": 1605 }
-      ],
-      "notes": []
-    },
-    {
-      "date": "2026-05-10",
-      "title": "Upper Density",
-      "exercises": [
-        {
-          "name": "Bench Press",
-          "sets": [
-            { "reps": 6, "weightKg": 60, "rpe": 8 },
-            { "reps": 5, "weightKg": 65, "rpe": 8.5 }
-          ]
-        },
-        {
-          "name": "Pull Up",
-          "sets": [
-            { "reps": 8, "weightKg": 0, "rpe": 8 },
-            { "reps": 7, "weightKg": 0, "rpe": 8 }
-          ]
-        }
-      ],
-      "cardio": [
-        { "kind": "row", "distanceKm": 3, "durationSeconds": 730 }
-      ],
-      "notes": ["Short session, high energy."]
+      "notes": ["Felt quite good, but intense."]
     }
   ]
 }

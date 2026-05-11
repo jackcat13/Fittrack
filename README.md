@@ -7,7 +7,7 @@ Fit & Track is a tiny fitness-log DSL and dashboard starter. Write training sess
 ```fittrack
 training 2026-05-01 "Push Strength"
   exercise "Bench Press"
-    set 5 x 60kg @8
+    set 3 x 5 x 60kg @8
     set 5 x 62.5kg @8.5
   cardio run 5km 27:30
   note "Bench moved well."
@@ -18,6 +18,7 @@ Supported statements:
 - `training YYYY-MM-DD "Title"` starts a session.
 - `exercise Name` or `exercise "Name"` starts a strength movement. When compiled with `--exercises`, `Name` must be present in the external exercise catalog.
 - `set reps x weightkg [@rpe]` records one strength set.
+- `set count x reps x weightkg [@rpe]` records the same set repeated multiple times.
 - `cardio kind distancekm mm:ss` records cardio work.
 - `note "Text"` adds a session note.
 
@@ -38,13 +39,13 @@ The starter catalog lives at `config/exercises.txt`. Personalize that file to co
 Compile the sample training log:
 
 ```sh
-cargo run -p fittrack -- compile examples/may.fit --exercises config/exercises.txt -o web/data/training.json
+cargo run -p fittrack -- compile examples/my-trainings.fit --exercises config/exercises.txt -o web/data/training.json
 ```
 
 Open the terminal app:
 
 ```sh
-cargo run -p fittrack -- tui examples/may.fit --exercises config/exercises.txt -o web/data/training.json
+cargo run -p fittrack -- tui examples/my-trainings.fit --exercises config/exercises.txt -o web/data/training.json
 ```
 
 Inside the TUI:

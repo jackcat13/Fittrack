@@ -393,7 +393,13 @@ impl App {
             total_sets: trainings
                 .iter()
                 .flat_map(|training| training.exercises.iter())
-                .map(|exercise| exercise.sets.len())
+                .map(|exercise| {
+                    exercise
+                        .sets
+                        .iter()
+                        .map(|set| set.count as usize)
+                        .sum::<usize>()
+                })
                 .sum(),
             total_volume_kg: trainings
                 .iter()
@@ -1096,7 +1102,7 @@ fn dashboard_lines(app: &App, _compiled: &CompiledTraining, width: usize) -> Vec
                     exercise
                         .sets
                         .iter()
-                        .map(|set| format!("{} x {}kg", set.reps, format_number(set.weight_kg)))
+                        .map(format_set)
                         .collect::<Vec<_>>()
                         .join(", ")
                 )));
@@ -1259,9 +1265,10 @@ fn training_completions(buffer: &Buffer, exercise_source: &str) -> Vec<Completio
             cursor,
             "set",
             [
-                ("5 x 60kg @8", "strength set with RPE"),
+                ("3 x 5 x 60kg @8", "repeated strength set"),
+                ("5 x 60kg @8", "single strength set with RPE"),
                 ("8 x 40kg", "strength set"),
-                ("10 x 20kg @7", "volume set with RPE"),
+                ("4 x 10 x 20kg @7", "repeated volume set"),
             ],
         );
     }
@@ -1309,7 +1316,7 @@ fn training_completions(buffer: &Buffer, exercise_source: &str) -> Vec<Completio
         [
             ("training 2026-05-11 \"Session\"", "start a training block"),
             ("exercise \"\"", "start an exercise"),
-            ("set 5 x 60kg @8", "add a strength set"),
+            ("set 3 x 5 x 60kg @8", "add repeated strength sets"),
             ("cardio run 5km 25:00", "add cardio work"),
             ("note \"\"", "add a note"),
         ],
@@ -1426,7 +1433,7 @@ fn exercise_volume(exercise: &Exercise) -> f32 {
     exercise
         .sets
         .iter()
-        .map(|set| set.reps as f32 * set.weight_kg)
+        .map(|set| set.count as f32 * set.reps as f32 * set.weight_kg)
         .sum()
 }
 
@@ -1436,6 +1443,19 @@ fn best_estimated_max(exercise: &Exercise) -> f32 {
         .iter()
         .map(|set| set.weight_kg * (1.0 + set.reps as f32 / 30.0))
         .fold(0.0, f32::max)
+}
+
+fn format_set(set: &fittrack::Set) -> String {
+    if set.count > 1 {
+        format!(
+            "{} x {} x {}kg",
+            set.count,
+            set.reps,
+            format_number(set.weight_kg)
+        )
+    } else {
+        format!("{} x {}kg", set.reps, format_number(set.weight_kg))
+    }
 }
 
 fn bar(value: f32, max: f32, width: usize) -> String {

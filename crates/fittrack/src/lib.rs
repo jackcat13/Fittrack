@@ -22,6 +22,7 @@ pub struct Exercise {
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Set {
+    pub count: u32,
     pub reps: u32,
     pub weight_kg: f32,
     pub rpe: Option<f32>,
@@ -101,8 +102,8 @@ pub fn compile_document_with_catalog(
     for training in &trainings {
         for exercise in &training.exercises {
             for set in &exercise.sets {
-                total_sets += 1;
-                total_volume_kg += set.reps as f32 * set.weight_kg;
+                total_sets += set.count as usize;
+                total_volume_kg += set_volume(set);
             }
         }
         for cardio in &training.cardio {
@@ -215,6 +216,10 @@ fn validate_exercise_name(
     ))
 }
 
+fn set_volume(set: &Set) -> f32 {
+    set.count as f32 * set.reps as f32 * set.weight_kg
+}
+
 pub fn render_json(compiled: &CompiledTraining) -> String {
     let mut out = String::new();
     out.push_str("{\n");
@@ -246,7 +251,8 @@ pub fn render_json(compiled: &CompiledTraining) -> String {
             for (set_index, set) in exercise.sets.iter().enumerate() {
                 let rpe = set.rpe.map(fmt_num).unwrap_or_else(|| "null".to_string());
                 out.push_str(&format!(
-                    "            {{ \"reps\": {}, \"weightKg\": {}, \"rpe\": {} }}{}\n",
+                    "            {{ \"count\": {}, \"reps\": {}, \"weightKg\": {}, \"rpe\": {} }}{}\n",
+                    set.count,
                     set.reps,
                     fmt_num(set.weight_kg),
                     rpe,
@@ -355,27 +361,44 @@ fn parse_set(line: &str, line_no: usize) -> Result<Set, String> {
         .ok_or_else(|| format!("Line {line_no}: expected set statement"))?;
     let parts: Vec<&str> = rest.split_whitespace().collect();
 
-    if parts.len() < 3 || parts[1] != "x" {
-        return Err(format!(
-            "Line {line_no}: expected `set <reps> x <weight>kg [@rpe]`"
-        ));
-    }
-
-    let reps = parts[0]
-        .parse::<u32>()
-        .map_err(|_| format!("Line {line_no}: invalid reps `{}`", parts[0]))?;
-    let weight_kg = parse_kg(parts[2], line_no)?;
-    let rpe = if parts.len() >= 4 {
-        Some(parse_rpe(parts[3], line_no)?)
-    } else {
-        None
+    let (count, reps_part, weight_part, rpe_part) = match parts.as_slice() {
+        [reps, "x", weight] => (1, *reps, *weight, None),
+        [reps, "x", weight, rpe] => (1, *reps, *weight, Some(*rpe)),
+        [count, "x", reps, "x", weight] => (parse_count(count, line_no)?, *reps, *weight, None),
+        [count, "x", reps, "x", weight, rpe] => {
+            (parse_count(count, line_no)?, *reps, *weight, Some(*rpe))
+        }
+        _ => {
+            return Err(format!(
+                "Line {line_no}: expected `set [<count> x] <reps> x <weight>kg [@rpe]`"
+            ));
+        }
     };
 
+    let reps = reps_part
+        .parse::<u32>()
+        .map_err(|_| format!("Line {line_no}: invalid reps `{reps_part}`"))?;
+    let weight_kg = parse_kg(weight_part, line_no)?;
+    let rpe = rpe_part
+        .map(|value| parse_rpe(value, line_no))
+        .transpose()?;
+
     Ok(Set {
+        count,
         reps,
         weight_kg,
         rpe,
     })
+}
+
+fn parse_count(input: &str, line_no: usize) -> Result<u32, String> {
+    let count = input
+        .parse::<u32>()
+        .map_err(|_| format!("Line {line_no}: invalid set count `{input}`"))?;
+    if count == 0 {
+        return Err(format!("Line {line_no}: set count must be greater than 0"));
+    }
+    Ok(count)
 }
 
 fn parse_cardio(line: &str, line_no: usize) -> Result<Cardio, String> {
@@ -535,6 +558,24 @@ training 2026-05-01 "Push"
         let compiled = compile_document_with_catalog(source, Some(&catalog)).unwrap();
 
         assert_eq!(compiled.trainings[0].exercises[0].name, "Bench Press");
+    }
+
+    #[test]
+    fn accepts_repeated_sets() {
+        let source = r#"
+training 2026-05-01 "Push"
+  exercise Bench Press
+    set 3 x 5 x 60kg @8
+"#;
+
+        let compiled = compile_document(source).unwrap();
+        let set = compiled.trainings[0].exercises[0].sets[0];
+
+        assert_eq!(set.count, 3);
+        assert_eq!(set.reps, 5);
+        assert_eq!(compiled.summary.total_sets, 3);
+        assert_eq!(compiled.summary.total_volume_kg, 900.0);
+        assert!(render_json(&compiled).contains("\"count\": 3"));
     }
 
     #[test]
