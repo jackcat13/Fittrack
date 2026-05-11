@@ -16,7 +16,7 @@ training 2026-05-01 "Push Strength"
 Supported statements:
 
 - `training YYYY-MM-DD "Title"` starts a session.
-- `exercise "Name"` starts a strength movement. When compiled with `--exercises`, `Name` must be present in the external exercise catalog.
+- `exercise Name` or `exercise "Name"` starts a strength movement. When compiled with `--exercises`, `Name` must be present in the external exercise catalog.
 - `set reps x weightkg [@rpe]` records one strength set.
 - `cardio kind distancekm mm:ss` records cardio work.
 - `note "Text"` adds a session note.

@@ -6,6 +6,9 @@ This is the real JetBrains plugin scaffold for Fit & Track.
 
 - `.fit` file type registration.
 - Lexer-backed syntax highlighting for keywords, comments, strings, numbers, units, and RPE values.
+- Completion for Fit & Track statements, statement bodies, and quoted or unquoted exercise names from `config/exercises.txt`.
+- Grammar completions insert editable scaffolding and place the caret in the first value slot instead of inserting throwaway defaults.
+- Live error highlighting for grammar mistakes and unknown catalog exercises while editing `.fit` files.
 - Run configuration support so a `.fit` file can be compiled from IntelliJ's Run button.
 - `Fit Track` tool window that renders `web/data/training.json` inside the IDE.
 
@@ -38,3 +41,4 @@ cargo run -p fittrack -- compile <file.fit> --exercises config/exercises.txt -o 
 
 After a successful compile, the `Fit Track` tool window refreshes automatically.
 
+Completion and live validation also assume the same catalog path: `config/exercises.txt`.

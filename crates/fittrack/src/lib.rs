@@ -154,7 +154,7 @@ pub fn parse_document_with_catalog(
             if let Some(exercise) = current_exercise.take() {
                 training.exercises.push(exercise);
             }
-            let name = parse_quoted_after_keyword(line, "exercise", line_no)?;
+            let name = parse_exercise_name(line, line_no)?;
             validate_exercise_name(&name, catalog, line_no)?;
             current_exercise = Some(Exercise {
                 name,
@@ -323,6 +323,23 @@ fn parse_quoted_after_keyword(line: &str, keyword: &str, line_no: usize) -> Resu
         .and_then(|value| value.strip_prefix(' '))
         .ok_or_else(|| format!("Line {line_no}: expected `{keyword} \"...\"`"))?;
     parse_quoted(rest.trim(), line_no)
+}
+
+fn parse_exercise_name(line: &str, line_no: usize) -> Result<String, String> {
+    let rest = line
+        .strip_prefix("exercise ")
+        .ok_or_else(|| format!("Line {line_no}: expected exercise statement"))?
+        .trim();
+
+    if rest.is_empty() {
+        return Err(format!("Line {line_no}: expected exercise name"));
+    }
+
+    if rest.starts_with('"') || rest.ends_with('"') {
+        return parse_quoted(rest, line_no);
+    }
+
+    Ok(rest.to_string())
 }
 
 fn parse_quoted(input: &str, line_no: usize) -> Result<String, String> {
@@ -504,6 +521,20 @@ training 2026-05-01 "Push"
         let compiled = compile_document_with_catalog(source, Some(&catalog)).unwrap();
 
         assert_eq!(compiled.summary.total_sets, 1);
+    }
+
+    #[test]
+    fn accepts_unquoted_exercise_names() {
+        let catalog = ExerciseCatalog::parse("Bench Press").unwrap();
+        let source = r#"
+training 2026-05-01 "Push"
+  exercise Bench Press
+    set 5 x 60kg @8
+"#;
+
+        let compiled = compile_document_with_catalog(source, Some(&catalog)).unwrap();
+
+        assert_eq!(compiled.trainings[0].exercises[0].name, "Bench Press");
     }
 
     #[test]

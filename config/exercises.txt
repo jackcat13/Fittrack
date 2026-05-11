@@ -8,4 +8,6 @@ Deadlift
 Overhead Press
 Pull Up
 Romanian Deadlift
-
+Pistol Squat
+Pistol Squat Elevated
+Squat
