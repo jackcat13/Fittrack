@@ -1,0 +1,11 @@
+# Personalize this list to define the exercise enum accepted by the DSL.
+# One exercise name per line, without quotes.
+
+Back Squat
+Barbell Row
+Bench Press
+Deadlift
+Overhead Press
+Pull Up
+Romanian Deadlift
+

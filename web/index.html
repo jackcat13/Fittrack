@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fit & Track</title>
+    <link rel="stylesheet" href="./assets/styles.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Fit & Track</p>
+        <h1>Training evolution</h1>
+      </div>
+      <div class="header-actions">
+        <button id="reload" type="button" aria-label="Reload data">Reload</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="stats-grid" aria-label="Training summary">
+        <article>
+          <span>Sessions</span>
+          <strong id="total-trainings">0</strong>
+        </article>
+        <article>
+          <span>Strength Sets</span>
+          <strong id="total-sets">0</strong>
+        </article>
+        <article>
+          <span>Total Volume</span>
+          <strong id="total-volume">0 kg</strong>
+        </article>
+        <article>
+          <span>Cardio Distance</span>
+          <strong id="total-cardio">0 km</strong>
+        </article>
+      </section>
+
+      <section class="dashboard">
+        <div class="panel chart-panel">
+          <div class="panel-heading">
+            <h2>Volume by session</h2>
+            <span>kg lifted</span>
+          </div>
+          <div id="volume-chart" class="chart" role="img" aria-label="Volume by session chart"></div>
+        </div>
+
+        <div class="panel chart-panel">
+          <div class="panel-heading">
+            <h2>Exercise progression</h2>
+            <label>
+              <span>Exercise</span>
+              <select id="exercise-select"></select>
+            </label>
+          </div>
+          <div id="exercise-chart" class="chart" role="img" aria-label="Exercise estimated max chart"></div>
+        </div>
+
+        <div class="panel session-panel">
+          <div class="panel-heading">
+            <h2>Recent sessions</h2>
+            <span id="session-count">0 logged</span>
+          </div>
+          <div id="sessions" class="sessions"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="./assets/app.js"></script>
+  </body>
+</html>
+

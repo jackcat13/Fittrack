@@ -1,0 +1,8 @@
+[package]
+name = "fittrack"
+version = "0.1.0"
+edition = "2024"
+description = "DSL compiler for Fit & Track training logs"
+
+[dependencies]
+

@@ -1,0 +1,38 @@
+{
+  "scopeName": "source.fittrack",
+  "name": "Fit & Track",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#keywords" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#rpe" },
+    { "include": "#units" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [{ "name": "comment.line.number-sign.fittrack", "match": "#.*$" }]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.fittrack",
+          "match": "\\b(training|exercise|set|cardio|note)\\b"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [{ "name": "string.quoted.double.fittrack", "begin": "\"", "end": "\"" }]
+    },
+    "numbers": {
+      "patterns": [{ "name": "constant.numeric.fittrack", "match": "\\b\\d+(?:\\.\\d+)?\\b" }]
+    },
+    "rpe": {
+      "patterns": [{ "name": "constant.numeric.rpe.fittrack", "match": "@\\d+(?:\\.\\d+)?" }]
+    },
+    "units": {
+      "patterns": [{ "name": "support.type.unit.fittrack", "match": "\\b(kg|km)\\b" }]
+    }
+  }
+}
+

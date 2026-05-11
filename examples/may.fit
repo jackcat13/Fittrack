@@ -1,0 +1,43 @@
+# Fit & Track sample log
+
+training 2026-05-01 "Push Strength"
+  exercise "Bench Press"
+    set 5 x 60kg @8
+    set 5 x 62.5kg @8.5
+    set 4 x 65kg @9
+  exercise "Overhead Press"
+    set 6 x 35kg @7.5
+    set 6 x 37.5kg @8
+  cardio bike 8km 18:20
+  note "Bench moved well, keep the same warmup."
+
+training 2026-05-04 "Pull Volume"
+  exercise "Deadlift"
+    set 5 x 100kg @7
+    set 5 x 110kg @8
+    set 3 x 120kg @8.5
+  exercise "Barbell Row"
+    set 8 x 55kg @8
+    set 8 x 57.5kg @8
+  note "Grip felt better than last week."
+
+training 2026-05-07 "Legs + Run"
+  exercise "Back Squat"
+    set 5 x 80kg @8
+    set 5 x 85kg @8
+    set 3 x 90kg @9
+  exercise "Romanian Deadlift"
+    set 8 x 70kg @7.5
+    set 8 x 72.5kg @8
+  cardio run 5km 26:45
+
+training 2026-05-10 "Upper Density"
+  exercise "Bench Press"
+    set 6 x 60kg @8
+    set 5 x 65kg @8.5
+  exercise "Pull Up"
+    set 8 x 0kg @8
+    set 7 x 0kg @8
+  cardio row 3km 12:10
+  note "Short session, high energy."
+
