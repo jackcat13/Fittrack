@@ -4,6 +4,8 @@ use std::path::PathBuf;
 
 use fittrack::{ExerciseCatalog, compile_document_with_catalog, render_json};
 
+mod tui;
+
 fn main() {
     if let Err(err) = run() {
         eprintln!("{err}");
@@ -53,6 +55,34 @@ fn run() -> Result<(), String> {
             }
             Ok(())
         }
+        "tui" => {
+            let input = args
+                .next()
+                .map(PathBuf::from)
+                .unwrap_or_else(|| PathBuf::from("examples/may.fit"));
+            let mut catalog_path = PathBuf::from("config/exercises.txt");
+            let mut output_path = PathBuf::from("web/data/training.json");
+            while let Some(arg) = args.next() {
+                if arg == "-o" || arg == "--output" {
+                    output_path = args
+                        .next()
+                        .map(PathBuf::from)
+                        .ok_or_else(|| "--output expects a path".to_string())?;
+                } else if arg == "--exercises" {
+                    catalog_path = args
+                        .next()
+                        .map(PathBuf::from)
+                        .ok_or_else(|| "--exercises expects a path".to_string())?;
+                } else {
+                    return Err(format!("Unknown argument: {arg}\n\n{}", help()));
+                }
+            }
+            tui::run(tui::TuiConfig {
+                fit_path: input,
+                exercise_path: catalog_path,
+                output_path,
+            })
+        }
         _ => Err(help()),
     }
 }
@@ -65,5 +95,5 @@ fn load_catalog(path: &PathBuf) -> Result<ExerciseCatalog, String> {
 }
 
 fn help() -> String {
-    "Usage: fittrack compile <input.fit> [--exercises exercises.txt] [-o output.json]".to_string()
+    "Usage:\n  fittrack compile <input.fit> [--exercises exercises.txt] [-o output.json]\n  fittrack tui [input.fit] [--exercises exercises.txt] [-o output.json]".to_string()
 }

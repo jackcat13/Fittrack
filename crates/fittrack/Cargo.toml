@@ -5,4 +5,5 @@ edition = "2024"
 description = "DSL compiler for Fit & Track training logs"
 
 [dependencies]
-
+crossterm = "0.28"
+ratatui = "0.29"

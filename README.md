@@ -41,6 +41,25 @@ Compile the sample training log:
 cargo run -p fittrack -- compile examples/may.fit --exercises config/exercises.txt -o web/data/training.json
 ```
 
+Open the terminal app:
+
+```sh
+cargo run -p fittrack -- tui examples/may.fit --exercises config/exercises.txt -o web/data/training.json
+```
+
+Inside the TUI:
+
+- `Ctrl-E` switches between the `.fit` editor and the exercise catalog editor.
+- `Ctrl-N` / `Ctrl-P` moves through the filtered completion choices.
+- `Tab` accepts the selected completion.
+- `F5` compiles the current buffers to JSON and opens the dashboard view.
+- `Ctrl-B` toggles between editor and dashboard.
+- In the dashboard, `Left` / `Right` chooses the year, month, or exercise filter.
+- In the dashboard, `Space` / `Enter` cycles the focused filter, and `Backspace` clears it.
+- In the dashboard, `Up` / `Down` / `PageUp` / `PageDown` or the mouse wheel scrolls the page.
+- `Ctrl-S` saves both edited files.
+- `Ctrl-C` quits.
+
 Open the dashboard:
 
 ```sh
