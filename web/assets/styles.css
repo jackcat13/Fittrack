@@ -23,13 +23,23 @@ body {
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-.app-header {
+.app-header,
+.header-actions {
   display: flex;
   align-items: center;
+}
+
+.app-header {
   justify-content: space-between;
   gap: 24px;
   padding: 32px clamp(20px, 5vw, 56px) 20px;
   border-bottom: 1px solid var(--line);
+}
+
+.header-actions {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
 .eyebrow {
@@ -57,6 +67,7 @@ h2 {
 }
 
 button,
+input,
 select {
   border: 1px solid var(--line);
   border-radius: 7px;
@@ -72,8 +83,17 @@ button {
   cursor: pointer;
 }
 
+input,
 select {
   min-height: 36px;
+}
+
+input {
+  width: 112px;
+  padding: 0 10px;
+}
+
+select {
   padding: 0 34px 0 10px;
 }
 
@@ -149,11 +169,35 @@ label {
   min-height: 260px;
 }
 
-.chart svg {
+.chart svg,
+.progression-charts svg {
   display: block;
   width: 100%;
   height: 260px;
   overflow: visible;
+}
+
+.progression-charts {
+  display: grid;
+  gap: 16px;
+}
+
+.metric-chart {
+  display: grid;
+  gap: 8px;
+}
+
+.metric-heading {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.metric-heading strong {
+  color: var(--ink);
+  font-size: 14px;
 }
 
 .axis {
@@ -173,6 +217,40 @@ label {
 
 .dot {
   fill: var(--accent-2);
+}
+
+.volume-line {
+  stroke: var(--accent-3);
+}
+
+.volume-dot {
+  fill: var(--accent-3);
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.chart-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chart-legend-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--accent-2);
+}
+
+.volume-swatch {
+  background: var(--accent-3);
 }
 
 .sessions {
@@ -235,4 +313,3 @@ label {
     flex-direction: column;
   }
 }
-

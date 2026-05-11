@@ -13,6 +13,14 @@
         <h1>Training evolution</h1>
       </div>
       <div class="header-actions">
+        <label>
+          <span>Year</span>
+          <input id="year-filter" type="text" inputmode="numeric" pattern="[0-9]{4}" placeholder="All years">
+        </label>
+        <label>
+          <span>Month</span>
+          <select id="month-filter"></select>
+        </label>
         <button id="reload" type="button" aria-label="Reload data">Reload</button>
       </div>
     </header>
@@ -54,7 +62,7 @@
               <select id="exercise-select"></select>
             </label>
           </div>
-          <div id="exercise-chart" class="chart" role="img" aria-label="Exercise estimated max chart"></div>
+          <div id="exercise-chart" class="progression-charts" role="img" aria-label="Exercise estimated max and volume charts"></div>
         </div>
 
         <div class="panel session-panel">
@@ -70,4 +78,3 @@
     <script src="./assets/app.js"></script>
   </body>
 </html>
-

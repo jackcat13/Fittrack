@@ -1,10 +1,14 @@
 const state = {
   data: null,
   selectedExercise: null,
+  selectedYear: "",
+  selectedMonth: "",
 };
 
 const els = {
   reload: document.querySelector("#reload"),
+  yearFilter: document.querySelector("#year-filter"),
+  monthFilter: document.querySelector("#month-filter"),
   totalTrainings: document.querySelector("#total-trainings"),
   totalSets: document.querySelector("#total-sets"),
   totalVolume: document.querySelector("#total-volume"),
@@ -17,6 +21,14 @@ const els = {
 };
 
 els.reload.addEventListener("click", loadData);
+els.yearFilter.addEventListener("input", (event) => {
+  state.selectedYear = event.target.value;
+  render();
+});
+els.monthFilter.addEventListener("change", (event) => {
+  state.selectedMonth = event.target.value;
+  render();
+});
 els.exerciseSelect.addEventListener("change", (event) => {
   state.selectedExercise = event.target.value;
   render();
@@ -29,6 +41,7 @@ async function loadData() {
     const response = await fetch("./data/training.json", { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     state.data = await response.json();
+    renderPeriodOptions();
     const exercises = exerciseNames(state.data);
     state.selectedExercise = state.selectedExercise || exercises[0] || "";
     render();
@@ -39,8 +52,12 @@ async function loadData() {
 }
 
 function render() {
-  const data = state.data;
-  const summary = data.summary || {};
+  const data = filteredData(state.data);
+  const summary = summarize(data.trainings);
+  const names = exerciseNames(data);
+  if (!names.includes(state.selectedExercise)) {
+    state.selectedExercise = names[0] || "";
+  }
 
   els.totalTrainings.textContent = formatNumber(summary.totalTrainings || 0);
   els.totalSets.textContent = formatNumber(summary.totalSets || 0);
@@ -54,12 +71,25 @@ function render() {
   renderSessions(data);
 }
 
+function renderPeriodOptions() {
+  const months = Array.from({ length: 12 }, (_, index) => String(index + 1).padStart(2, "0"));
+
+  els.monthFilter.innerHTML = [
+    `<option value="">All months</option>`,
+    ...months.map((month) => `<option value="${escapeHtml(month)}">${escapeHtml(monthName(month))}</option>`),
+  ].join("");
+
+  els.yearFilter.value = state.selectedYear;
+  els.monthFilter.value = state.selectedMonth;
+}
+
 function renderExerciseOptions(data) {
   const names = exerciseNames(data);
-  els.exerciseSelect.innerHTML = names
-    .map((name) => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`)
-    .join("");
+  els.exerciseSelect.innerHTML = names.length
+    ? names.map((name) => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`).join("")
+    : `<option value="">No exercises</option>`;
   els.exerciseSelect.value = state.selectedExercise || names[0] || "";
+  els.exerciseSelect.disabled = names.length === 0;
 }
 
 function renderVolumeChart(data) {
@@ -77,15 +107,21 @@ function renderExerciseChart(data, exerciseName) {
       if (!exercise) return null;
       return {
         label: shortDate(training.date),
-        value: bestEstimatedMax(exercise),
+        weight: bestEstimatedMax(exercise),
+        volume: exerciseVolume(exercise),
       };
     })
     .filter(Boolean);
 
-  els.exerciseChart.innerHTML = lineChart(points, "kg");
+  els.exerciseChart.innerHTML = exerciseProgressionCharts(points);
 }
 
 function renderSessions(data) {
+  if (data.trainings.length === 0) {
+    els.sessions.innerHTML = `<div class="empty">No sessions match these filters</div>`;
+    return;
+  }
+
   els.sessions.innerHTML = data.trainings
     .slice()
     .reverse()
@@ -150,35 +186,83 @@ function barChart(points, unit) {
   </svg>`;
 }
 
-function lineChart(points, unit) {
+function exerciseProgressionCharts(points) {
   if (points.length === 0) return `<div class="empty">No matching exercise data</div>`;
 
+  return `
+    <div class="metric-chart">
+      <div class="metric-heading">
+        <span class="chart-legend-swatch"></span>
+        <strong>Estimated max</strong>
+      </div>
+      ${lineChart(points, "weight", "kg", "line", "dot")}
+    </div>
+    <div class="metric-chart">
+      <div class="metric-heading">
+        <span class="chart-legend-swatch volume-swatch"></span>
+        <strong>Volume</strong>
+      </div>
+      ${lineChart(points, "volume", "kg", "line volume-line", "dot volume-dot")}
+    </div>
+  `;
+}
+
+function lineChart(points, valueKey, unit, lineClass, dotClass) {
   const width = 760;
   const height = 260;
   const pad = 36;
-  const max = Math.max(...points.map((point) => point.value), 1);
+  const max = Math.max(...points.map((point) => point[valueKey]), 1);
   const step = points.length === 1 ? 0 : (width - pad * 2) / (points.length - 1);
   const coords = points.map((point, index) => ({
     ...point,
     x: points.length === 1 ? width / 2 : pad + index * step,
-    y: height - pad - ((height - pad * 2) * point.value) / max,
+    y: height - pad - ((height - pad * 2) * point[valueKey]) / max,
   }));
   const path = coords.map((point, index) => `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`).join(" ");
   const dots = coords
     .map(
       (point) => `
-        <circle class="dot" cx="${point.x}" cy="${point.y}" r="5"></circle>
-        <text class="axis" x="${point.x - 18}" y="${Math.max(16, point.y - 12)}">${formatNumber(point.value)} ${unit}</text>
-        <text class="axis" x="${point.x - 16}" y="${height - 10}">${escapeHtml(point.label)}</text>
+        <circle class="${dotClass}" cx="${point.x}" cy="${point.y}" r="5"></circle>
+        <text class="axis" x="${point.x - 18}" y="${Math.max(16, point.y - 12)}">${formatNumber(point[valueKey])} ${unit}</text>
       `,
     )
+    .join("");
+  const labels = coords
+    .map((point) => `<text class="axis" x="${point.x - 16}" y="${height - 10}">${escapeHtml(point.label)}</text>`)
     .join("");
 
   return `<svg viewBox="0 0 ${width} ${height}" aria-hidden="true">
     <line x1="${pad}" y1="${height - pad}" x2="${width - pad}" y2="${height - pad}" stroke="#d9ded8"></line>
-    <path class="line" d="${path}"></path>
+    <path class="${lineClass}" d="${path}"></path>
     ${dots}
+    ${labels}
   </svg>`;
+}
+
+function filteredData(data) {
+  const selectedYear = els.yearFilter.value.trim();
+  const selectedMonth = els.monthFilter.value;
+
+  return {
+    ...data,
+    trainings: data.trainings.filter((training) => {
+      const [year, month] = training.date.split("-");
+      return (!selectedYear || year === selectedYear) && (!selectedMonth || month === selectedMonth);
+    }),
+  };
+}
+
+function summarize(trainings) {
+  return trainings.reduce(
+    (summary, training) => {
+      summary.totalTrainings += 1;
+      summary.totalSets += training.exercises.reduce((total, exercise) => total + exercise.sets.length, 0);
+      summary.totalVolumeKg += trainingVolume(training);
+      summary.totalCardioKm += training.cardio.reduce((total, item) => total + item.distanceKm, 0);
+      return summary;
+    },
+    { totalTrainings: 0, totalSets: 0, totalVolumeKg: 0, totalCardioKm: 0 },
+  );
 }
 
 function exerciseNames(data) {
@@ -186,10 +270,11 @@ function exerciseNames(data) {
 }
 
 function trainingVolume(training) {
-  return training.exercises.reduce(
-    (total, exercise) => total + exercise.sets.reduce((sum, set) => sum + set.reps * set.weightKg, 0),
-    0,
-  );
+  return training.exercises.reduce((total, exercise) => total + exerciseVolume(exercise), 0);
+}
+
+function exerciseVolume(exercise) {
+  return exercise.sets.reduce((sum, set) => sum + set.reps * set.weightKg, 0);
 }
 
 function bestEstimatedMax(exercise) {
@@ -210,6 +295,10 @@ function formatDuration(seconds) {
   return `${minutes}:${rest}`;
 }
 
+function monthName(value) {
+  return new Intl.DateTimeFormat("en", { month: "long" }).format(new Date(`2026-${value}-01T00:00:00`));
+}
+
 function formatNumber(value) {
   return new Intl.NumberFormat("en", { maximumFractionDigits: 1 }).format(value);
 }
@@ -221,4 +310,3 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
 }
-

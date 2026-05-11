@@ -1,8 +1,8 @@
 {
   "summary": {
     "totalTrainings": 4,
-    "totalSets": 19,
-    "totalVolumeKg": 6537.5,
+    "totalSets": 22,
+    "totalVolumeKg": 7947.5,
     "totalCardioKm": 16
   },
   "trainings": [
@@ -23,6 +23,14 @@
           "sets": [
             { "reps": 6, "weightKg": 35, "rpe": 7.5 },
             { "reps": 6, "weightKg": 37.5, "rpe": 8 }
+          ]
+        },
+        {
+          "name": "Deadlift",
+          "sets": [
+            { "reps": 5, "weightKg": 100, "rpe": 7 },
+            { "reps": 5, "weightKg": 110, "rpe": 8 },
+            { "reps": 3, "weightKg": 120, "rpe": 8.5 }
           ]
         }
       ],
