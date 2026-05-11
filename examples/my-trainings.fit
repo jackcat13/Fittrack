@@ -1,0 +1,9 @@
+training 2026-05-11 "Leg Strength"
+  exercise Pistol Squat Elevated
+    set 10 x 5 x 0kg @10
+  exercise Calve Raise
+    set 10 x 12 x 20kg @7
+  exercise Deadlift Straight Legs
+    set 10 x 10 x 20kg @5
+  cardio run 12km 60:00
+  note "Felt quite good, but intense."
