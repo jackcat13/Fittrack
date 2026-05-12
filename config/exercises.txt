@@ -4,10 +4,22 @@
 Back Squat
 Barbell Row
 Bench Press
+Dead Hang
 Deadlift
 Deadlift Straight Legs
 Overhead Press
 Pull Up
+Pull Up Scapula
+Front Lever
+Front Lever Tuck
+Front Lever Advanced Tuck
+Front Lever One Leg
+Front Lever Straddle
+Planche
+Planche Tuck
+Planche Advanced Tuck
+Planche One Leg
+Planche Straddle
 Romanian Deadlift
 Pistol Squat
 Pistol Squat Elevated

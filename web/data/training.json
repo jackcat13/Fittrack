@@ -1,11 +1,51 @@
 {
   "summary": {
-    "totalTrainings": 1,
-    "totalSets": 30,
-    "totalVolumeKg": 4400,
+    "totalTrainings": 2,
+    "totalSets": 60,
+    "totalVolumeKg": 4800,
     "totalCardioKm": 12
   },
   "trainings": [
+    {
+      "date": "2026-05-12",
+      "title": "Pull Strength",
+      "exercises": [
+        {
+          "name": "Pull Up Scapula",
+          "sets": [
+            { "count": 2, "reps": 12, "weightKg": 0, "rpe": 2 }
+          ]
+        },
+        {
+          "name": "Dead Hang",
+          "sets": [
+            { "count": 4, "reps": 30, "weightKg": 0, "rpe": 4 }
+          ]
+        },
+        {
+          "name": "Front Lever One Leg",
+          "sets": [
+            { "count": 5, "reps": 8, "weightKg": 0, "rpe": 7 },
+            { "count": 5, "reps": 6, "weightKg": 0, "rpe": 9 }
+          ]
+        },
+        {
+          "name": "Pull Up",
+          "sets": [
+            { "count": 10, "reps": 2, "weightKg": 20, "rpe": 8 }
+          ]
+        },
+        {
+          "name": "Planche Tuck",
+          "sets": [
+            { "count": 4, "reps": 8, "weightKg": 0, "rpe": 6 }
+          ]
+        }
+      ],
+      "cardio": [
+      ],
+      "notes": []
+    },
     {
       "date": "2026-05-11",
       "title": "Leg Strength",
