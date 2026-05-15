@@ -8,6 +8,8 @@ Dead Hang
 Deadlift
 Deadlift Straight Legs
 Overhead Press
+Handstand
+Handstand Pushup
 Pull Up
 Pull Up Scapula
 Front Lever
@@ -15,6 +17,8 @@ Front Lever Tuck
 Front Lever Advanced Tuck
 Front Lever One Leg
 Front Lever Straddle
+LSit
+Pseudo Planche Pushup
 Planche
 Planche Tuck
 Planche Advanced Tuck

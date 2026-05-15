@@ -1,11 +1,44 @@
 {
   "summary": {
-    "totalTrainings": 2,
-    "totalSets": 60,
+    "totalTrainings": 3,
+    "totalSets": 87,
     "totalVolumeKg": 4800,
     "totalCardioKm": 12
   },
   "trainings": [
+    {
+      "date": "2026-05-15",
+      "title": "Push Strength",
+      "exercises": [
+        {
+          "name": "Handstand",
+          "sets": [
+            { "count": 3, "reps": 20, "weightKg": 0, "rpe": 5 }
+          ]
+        },
+        {
+          "name": "Planche Tuck",
+          "sets": [
+            { "count": 10, "reps": 10, "weightKg": 0, "rpe": 8 }
+          ]
+        },
+        {
+          "name": "Pseudo Planche Pushup",
+          "sets": [
+            { "count": 10, "reps": 11, "weightKg": 0, "rpe": 9 }
+          ]
+        },
+        {
+          "name": "LSit",
+          "sets": [
+            { "count": 4, "reps": 10, "weightKg": 0, "rpe": 6 }
+          ]
+        }
+      ],
+      "cardio": [
+      ],
+      "notes": []
+    },
     {
       "date": "2026-05-12",
       "title": "Pull Strength",

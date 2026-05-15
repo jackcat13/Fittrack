@@ -1,4 +1,15 @@
 # For holds, I consider that 1 rep is 1 second of hold, so 10 x 5 means 10 sets of 5 seconds hold.
+
+training 2026-05-15 "Push Strength"
+  exercise Handstand
+    set 3 x 20 x 0kg @5
+  exercise Planche Tuck
+    set 10 x 10 x 0kg @8
+  exercise Pseudo Planche Pushup
+    set 10 x 11 x 0kg @9
+  exercise LSit
+    set 4 x 10 x 0kg @6
+
 training 2026-05-12 "Pull Strength"
   exercise Pull Up Scapula
     set 2 x 12 x 0kg @2
